@@ -41,6 +41,7 @@ equipment = st.multiselect(
     "Available Equipment",
     ["Dumbbells", "Barbell", "Pull-up Bar", "Bodyweight", "Kettlebell"],
     default=["Dumbbells", "Bodyweight"],
+)
 duration = st.slider("Duration (minutes)", 15, 90, 45)
 
 
