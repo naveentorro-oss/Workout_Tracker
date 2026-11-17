@@ -5,6 +5,9 @@ from st_supabase_connection import SupabaseConnection, execute_query
 import streamlit as st
 
 
+GEMINI_MODEL = "gemini-3.8-flash"
+
+
 # 1. Define Structured Output Schema
 class Exercise(BaseModel):
     name: str
@@ -23,7 +26,8 @@ class WorkoutPlan(BaseModel):
 st.title("🤖 AI Workout Generator & Cloud Logger")
 
 try:
-    ai_client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+    gemini_api_key = st.secrets.get("GEMINI_API_KEY")
+    ai_client = genai.Client(api_key=gemini_api_key) if gemini_api_key else None
 except Exception:
     ai_client = None
 
@@ -70,7 +74,7 @@ if st.button("Generate Workout"):
         try:
             with st.spinner("Generating structured routine..."):
                 response = ai_client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model=GEMINI_MODEL,
                     contents=prompt,
                     config=types.GenerateContentConfig(
                         response_mime_type="application/json",
